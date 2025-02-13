@@ -12,7 +12,7 @@ const yesTexts = [
     "You are MINEEEEE STUPIDDD JUST SAY ITTTTT 🎀💘",
     "YESS righttttt👀💝",
     "Of course! just sayy itt meriii jaannn maan bhi jaooo😾😘",
-    "Itna bhi kya bhai kha rhe ho bol bhi do han😒"
+    "Itna bhi kya bhao kha rhe ho bol bhi do han😒"
 ];
 
 let currentYesTextIndex = 0;
