@@ -1,26 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Proposal</title>
+    <title>A Special Question 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="him.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="page front-page">
-            <h1>Will you be my Valentine?</h1>
-            <div class="buttons">
+    <!-- Start Overlay to enable Audio -->
+    <div id="startOverlay">
+        <div class="start-content">
+            <h1>Ready for something special? 💌</h1>
+            <button id="startBtn">Open My Heart</button>
+        </div>
+    </div>
+
+    <!-- Background hearts stay active throughout -->
+    <div id="particles-container"></div>
+
+    <div class="music-control" id="musicToggle">🎵</div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Proposal Page -->
+    <main id="proposalPage" class="screen-visible">
+        <div class="elegant-card">
+            <h1>Hey Cutie... <br><span>Will you be my Valentine?</span></h1>
+            <p class="subtitle">Think carefully, I'm very sensitive! 🥺</p>
+            <div class="buttons-area">
                 <button id="noBtn" class="no-btn">No</button>
                 <button id="yesBtn" class="yes-btn">Yes</button>
             </div>
         </div>
-        <div class="page back-page">
-            <div class="message"></div>
-            <div class="gif-container"></div>
+    </main>
+
+    <!-- Success Page (Pure Elegance) -->
+    <main id="successPage" class="screen-hidden">
+        <div class="elegant-success-card">
+            <div class="success-gif-container">
+                <img src="/pics/hug%20him%20copy.gif" alt="Success Hug" class="success-gif">
+            </div>
+            <h1 class="success-title">Yay! 💖</h1>
+            <div class="royal-message">
+                <span class="highlight">My Everything! 👑</span>
+                <p class="sub-message">You've made me the happiest person alive.<br>Let's make every moment
+                    unforgettable. ✨❤️</p>
+            </div>
+            <div class="sparkle-container">✨ 💖 ✨</div>
         </div>
-    </div>
+    </main>
 
     <script src="him.js"></script>
 </body>
+
 </html>

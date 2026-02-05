@@ -1,50 +1,105 @@
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const frontPage = document.querySelector(".front-page");
-const backPage = document.querySelector(".back-page");
-const message = document.querySelector(".message");
-const gifContainer = document.querySelector(".gif-container");
+const proposalPage = document.getElementById("proposalPage");
+const successPage = document.getElementById("successPage");
+const bgMusic = document.getElementById("bgMusic");
+const musicToggle = document.getElementById("musicToggle");
+const startOverlay = document.getElementById("startOverlay");
+const startBtn = document.getElementById("startBtn");
 
 const yesTexts = [
-    "Yes, please!🎀",
-    "Maan bhi jao naaa🥺🎀",
-    "I do!(agr han nhi bola I'll kill u stupid😾) 🎀💖",
-    "You are MINEEEEE STUPIDDD JUST SAY ITTTTT 🎀💘",
-    "YESS righttttt👀💝",
-    "Of course! just sayy itt meriii jaannn maan bhi jaooo😾😘",
-    "Itna bhi kya bhao kha rhe ho bol bhi do han😒"
+    "Wait, are you sure? 🥺",
+    "Pllleeeeaaassseee? 🎀",
+    "Don't do this to me... 💔",
+    "I'll be very sad... 😭",
+    "I'm gonna cry! 😿",
+    "Just click the big RED button! 🔴",
+    "You have no choice now! 😾",
+    "STILL NO?! 😱",
+    "I'm literally begging! 🙏",
+    "Say YES already! 😘"
 ];
 
 let currentYesTextIndex = 0;
+let yesScale = 1;
+let isPlaying = false;
 
-// When "No" button is clicked, do not change anything on the "No" button but change the "Yes" button text.
-noBtn.addEventListener("click", function() {
-    yesBtn.textContent = yesTexts[currentYesTextIndex];
-    currentYesTextIndex = (currentYesTextIndex + 1) % yesTexts.length;
+// Handle Start Interaction
+startBtn.addEventListener("click", () => {
+    startOverlay.style.opacity = "0";
+    setTimeout(() => {
+        startOverlay.style.visibility = "hidden";
+        playMusic();
+    }, 800);
 });
 
-// When "Yes" button is clicked, flip the page, change colors, and show a cute message with an enlarging gif.
-yesBtn.addEventListener("click", function() {
-    // Flip the page
-    frontPage.style.transform = "rotateY(180deg)";
-    backPage.style.transform = "rotateY(0deg)";
-    
-    // Change the background color of the body
-    document.body.style.backgroundColor = "#ff6b81";
+// Particles
+const emojis = ["❤️", "💖", "💝", "💗", "💓", "✨", "🌸", "🌹"];
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart-particle", "floating");
+    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 4 + 4 + "s";
+    heart.style.fontSize = Math.random() * 20 + 20 + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+}
+setInterval(createHeart, 400);
 
-    // Show the message
-    message.textContent = "Yay! 💖 huh Gudd forrr youu babie!😾bachh gyee tumm ye lo hugggss😽";
-    
-    // Show the gif with animation
-    setTimeout(function() {
-        gifContainer.innerHTML = `
-            <img src="pics/hug him copy.gif" alt="Cute Valentine GIF">
-        `;
-    }, 1000);
+// No Button Trick (Improved to stay visible)
+function moveNoButton() {
+    const card = document.querySelector('.elegant-card');
+    const bounds = card.getBoundingClientRect();
 
-    // Enlarge the gif gradually
-    setTimeout(function() {
-        const gif = gifContainer.querySelector("img");
-        gif.style.width = "300px";
-    }, 2000);
+    // Calculate random position within the card padding/safe area
+    const x = Math.random() * (bounds.width - 150) - (bounds.width / 2 - 75);
+    const y = Math.random() * (bounds.height - 150) - (bounds.height / 2 - 75);
+
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("click", () => {
+    // Also grow the yes button when clicked
+    yesBtn.textContent = yesTexts[currentYesTextIndex];
+    currentYesTextIndex = (currentYesTextIndex + 1) % yesTexts.length;
+    yesScale += 0.3;
+    yesBtn.style.transform = `scale(${yesScale})`;
+    moveNoButton();
+});
+
+// Music
+function playMusic() {
+    bgMusic.play().then(() => {
+        isPlaying = true;
+        musicToggle.innerHTML = "🎵";
+    }).catch(() => { });
+}
+
+musicToggle.addEventListener("click", () => {
+    if (isPlaying) {
+        bgMusic.pause();
+        musicToggle.innerHTML = "🔇";
+    } else {
+        bgMusic.play();
+        musicToggle.innerHTML = "🎵";
+    }
+    isPlaying = !isPlaying;
+});
+
+// "Page" Transition
+yesBtn.addEventListener("click", () => {
+    proposalPage.classList.remove("screen-visible");
+    proposalPage.classList.add("screen-hidden");
+
+    successPage.classList.remove("screen-hidden");
+    successPage.classList.add("screen-visible");
+
+    playMusic(); // Ensure music plays
+
+    // Celebration effect
+    for (let i = 0; i < 50; i++) {
+        setTimeout(createHeart, i * 50);
+    }
 });
