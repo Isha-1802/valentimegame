@@ -55,22 +55,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // No Button Trick
     function moveNoButton() {
         const card = document.querySelector('.elegant-card');
-        if (!card) return;
-        const bounds = card.getBoundingClientRect();
+        if (!card || !noBtn) return;
 
-        const x = Math.random() * (bounds.width - 150) - (bounds.width / 2 - 75);
-        const y = Math.random() * (bounds.height - 150) - (bounds.height / 2 - 75);
+        const cardRect = card.getBoundingClientRect();
+        const btnRect = noBtn.getBoundingClientRect();
+
+        // Calculate safe boundaries within the card
+        const maxX = cardRect.width - btnRect.width - 20;
+        const maxY = cardRect.height - btnRect.height - 20;
+
+        // Random position within these bounds (relative to card center)
+        const x = (Math.random() * maxX) - (maxX / 2);
+        const y = (Math.random() * maxY) - (maxY / 2);
 
         noBtn.style.transform = `translate(${x}px, ${y}px)`;
     }
 
     if (noBtn) {
         noBtn.addEventListener("mouseover", moveNoButton);
-        noBtn.addEventListener("click", () => {
+        noBtn.addEventListener("touchstart", (e) => {
+            e.preventDefault(); // Prevent accidental clicks on mobile
+            moveNoButton();
+        });
+
+        noBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
             yesBtn.textContent = yesTexts[currentYesTextIndex];
             currentYesTextIndex = (currentYesTextIndex + 1) % yesTexts.length;
-            yesScale += 0.3;
-            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Increment scale but cap it for extreme cases
+            if (yesScale < 5) {
+                yesScale += 0.4;
+                yesBtn.style.transform = `scale(${yesScale})`;
+            }
+
             moveNoButton();
         });
     }
